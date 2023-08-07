@@ -16,7 +16,7 @@ public class LocatarioController {
 
     private final LocatarioService locatarioService;
 
-    @GetMapping
+    @GetMapping("/locatarios")
     public ResponseEntity<List<LocatarioDto>> getAllLocatarios() {
         List<LocatarioDto> locatarioDtoList = locatarioService.getAllLocatarios();
         return ResponseEntity.ok().body(locatarioDtoList);
@@ -28,13 +28,13 @@ public class LocatarioController {
         return new ResponseEntity<>(locatarioCriado, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/locatario/{id}")
     public ResponseEntity<LocatarioDto> atualizarLocatario(@PathVariable("id") Long id, @RequestBody LocatarioDto locatarioDto) {
         LocatarioDto locatarioAtualizado = locatarioService.atualizarLocatario(id, locatarioDto);
         return ResponseEntity.ok(locatarioAtualizado);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/locatario/{id}")
     public ResponseEntity<Void> excluirLocatario(@PathVariable("id") Long id) {
         locatarioService.excluirPessoa(id);
         return ResponseEntity.noContent().build();

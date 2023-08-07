@@ -33,14 +33,14 @@ public class AutorController {
         return new ResponseEntity<>(autorCriado, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/autores/{id}")
     public ResponseEntity<AutorDto> atualizarAutor(@PathVariable("id") Long id, @RequestBody AutorDto autorDto) {
         AutorDto autorAtualizado = autorService.atualizarAutor(id, autorDto);
         return ResponseEntity.ok(autorAtualizado);
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/autores/{id}")
     public ResponseEntity<Void> excluirPessoa(@PathVariable("id") Long id) {
         autorService.excluirAutor(id);
         return ResponseEntity.noContent().build();

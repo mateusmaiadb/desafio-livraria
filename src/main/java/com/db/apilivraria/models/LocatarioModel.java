@@ -1,5 +1,6 @@
 package com.db.apilivraria.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +10,8 @@ import java.time.LocalDate;
 
 @Entity
 @Data
+@Table(name = "locatario")
+
 public class LocatarioModel {
 
     @Id
@@ -26,6 +29,7 @@ public class LocatarioModel {
     private String email;
 
     @NotBlank(message = "dataNascimento obrigatorio")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
     @NotBlank

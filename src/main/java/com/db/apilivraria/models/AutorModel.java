@@ -6,10 +6,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
+@Table(name = "autor")
 public class AutorModel {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +24,6 @@ public class AutorModel {
 
     private String sexo;
 
-
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate anoNascimento;
 
@@ -28,4 +31,6 @@ public class AutorModel {
     @Column(unique = true, length = 11)
     private String cpf;
 
+    @ManyToMany(mappedBy = "autores")
+    private List<LivroModel> livros = new ArrayList<>();
 }

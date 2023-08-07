@@ -16,7 +16,7 @@ public class LivroController {
     private final LivroService livroService;
 
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<LivroDto>> getAllPessoas() {
         List<LivroDto> livroDtos = livroService.getAllPessoas();
         return ResponseEntity.ok().body(livroDtos);
@@ -29,13 +29,13 @@ public class LivroController {
         return new ResponseEntity<>(livroCriado, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/livros/{id}")
     public ResponseEntity<LivroDto> atualizarLivro(@PathVariable("id") Long id, @RequestBody LivroDto livroDto) {
         LivroDto livroAtualizado = livroService.atualizarLivro(id, livroDto);
         return ResponseEntity.ok(livroAtualizado);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/livros/{id}")
     public ResponseEntity<Void> excluirlivro(@PathVariable("id") Long id) {
         livroService.excluirlivro(id);
         return ResponseEntity.noContent().build();
