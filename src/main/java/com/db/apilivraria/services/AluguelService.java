@@ -1,36 +1,57 @@
 package com.db.apilivraria.services;
 
-import com.db.apilivraria.dtos.AlugueDto;
+import com.db.apilivraria.dtos.AluguelDto;
 import com.db.apilivraria.mappers.AluguelMapper;
-import com.db.apilivraria.models.AluguelModel;
-import com.db.apilivraria.models.LocatarioModel;
+import com.db.apilivraria.models.Aluguel;
+import com.db.apilivraria.models.Locatario;
 import com.db.apilivraria.repositories.AluguelRepository;
 import com.db.apilivraria.repositories.LocatarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class AluguelService {
 
-    private AluguelRepository aluguelRepository;
-    private LocatarioRepository locatarioRepository;
+    private final AluguelRepository aluguelRepository;
+    private final LocatarioRepository locatarioRepository;
 
     public AluguelService(AluguelRepository aluguelRepository, LocatarioRepository locatarioRepository) {
         this.aluguelRepository = aluguelRepository;
         this.locatarioRepository = locatarioRepository;
     }
 
-    public AlugueDto alugarLivro(AlugueDto alugueDto) {
-        AluguelModel aluguelModel = AluguelMapper.toEntity(alugueDto);
+    public List<AluguelDto> getAllAlugueis() {
+        List<Aluguel> aluguels = aluguelRepository.findAll();
+        return aluguels.stream()
+                .map(AluguelMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
-        LocatarioModel locatarioModel = aluguelModel.getLocatario();
-        if (locatarioModel.getId() == null) {
-            // If the locatario is not yet persisted, save it first
-            locatarioModel = locatarioRepository.save(locatarioModel);
-            aluguelModel.setLocatario(locatarioModel); // Set the persisted locatario to the aluguel
+    public AluguelDto alugarLivro(AluguelDto aluguelDto) {
+
+        Aluguel aluguel = AluguelMapper.toEntity(aluguelDto);
+
+        Locatario locatario = aluguel.getLocatario();
+
+        if (locatario.getId() == null) {
+            locatario = locatarioRepository.save(locatario);
+            aluguel.setLocatario(locatario);
         }
 
-        aluguelModel = aluguelRepository.save(aluguelModel);
+        aluguel = aluguelRepository.save(aluguel);
 
-        return AluguelMapper.toDto(aluguelModel);
+        return AluguelMapper.toDto(aluguel);
+    }
+
+    public void excluirAluguel(Long id) {
+        Optional<Aluguel> aluguelModel = aluguelRepository.findById(id);
+        if (aluguelModel.isPresent()) {
+            aluguelRepository.delete(aluguelModel.get());
+        } else {
+            throw new IllegalArgumentException("Locatario nao encontrado, esse ID pode nao estar cadastrado em nosso banco de dados");
+        }
     }
 }

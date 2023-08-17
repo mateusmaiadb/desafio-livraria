@@ -16,9 +16,9 @@ public class LivroController {
     private final LivroService livroService;
 
 
-    @GetMapping("/list")
-    public ResponseEntity<List<LivroDto>> getAllPessoas() {
-        List<LivroDto> livroDtos = livroService.getAllPessoas();
+    @GetMapping("/livros")
+    public ResponseEntity<List<LivroDto>> getAllLivros() {
+        List<LivroDto> livroDtos = livroService.getAllLivros();
         return ResponseEntity.ok().body(livroDtos);
     }
 
