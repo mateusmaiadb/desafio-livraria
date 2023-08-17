@@ -1,26 +1,26 @@
 package com.db.apilivraria.mappers;
 
 import com.db.apilivraria.dtos.AutorDto;
-import com.db.apilivraria.models.AutorModel;
+import com.db.apilivraria.models.Autor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface AutorMapper {
 
-    static AutorDto toDto(AutorModel autorModel){
+    static AutorDto toDto(Autor autor){
         AutorDto autorDto = new AutorDto();
-        BeanUtils.copyProperties(autorModel, autorDto);
+        BeanUtils.copyProperties(autor, autorDto);
         return autorDto;
     }
 
-    static AutorModel toEntity(AutorDto autorDto) {
-        AutorModel autorModel = new AutorModel();
-        BeanUtils.copyProperties(autorDto, autorModel);
-        return autorModel;
+    static Autor toEntity(AutorDto autorDto) {
+        Autor autor = new Autor();
+        BeanUtils.copyProperties(autorDto, autor);
+        return autor;
     }
 
-    static void updateEntityFromDto(AutorDto autorDto, AutorModel autorModel){
-        BeanUtils.copyProperties(autorDto,autorModel, "id");
+    static void updateEntityFromDto(AutorDto autorDto, Autor autor){
+        BeanUtils.copyProperties(autorDto, autor, "id");
     }
 }

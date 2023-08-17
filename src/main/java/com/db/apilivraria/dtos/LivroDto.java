@@ -1,8 +1,6 @@
 package com.db.apilivraria.dtos;
 
-import com.db.apilivraria.models.AutorModel;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,6 +8,8 @@ import java.util.List;
 
 @Data
 public class LivroDto {
+
+    Long id;
 
     @NotBlank
     private String nome;

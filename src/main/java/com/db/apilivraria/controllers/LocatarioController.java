@@ -36,7 +36,7 @@ public class LocatarioController {
 
     @DeleteMapping("/locatario/{id}")
     public ResponseEntity<Void> excluirLocatario(@PathVariable("id") Long id) {
-        locatarioService.excluirPessoa(id);
+        locatarioService.excluirLocatario(id);
         return ResponseEntity.noContent().build();
     }
 }

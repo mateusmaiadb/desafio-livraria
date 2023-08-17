@@ -12,11 +12,12 @@ import java.time.LocalDate;
 @Data
 public class AutorDto {
 
+    private Long id;
+
     @NotBlank(message = "nome obrigatorio")
     private String nome;
 
     private String sexo;
-
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonFormat(pattern = "dd/MM/yyyy")

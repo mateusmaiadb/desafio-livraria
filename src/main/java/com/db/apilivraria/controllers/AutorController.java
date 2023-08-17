@@ -22,13 +22,13 @@ public class AutorController {
     }
 
     @GetMapping("/autores/{id}")
-    public ResponseEntity<AutorDto> getPessoaById(@PathVariable("id") Long id) {
-        AutorDto autorDto = autorService.getPessoaById(id);
+    public ResponseEntity<AutorDto> getAutorById(@PathVariable("id") Long id) {
+        AutorDto autorDto = autorService.getAutorById(id);
         return ResponseEntity.ok(autorDto);
     }
 
     @PostMapping("/autores")
-    public ResponseEntity<AutorDto> criarPessoa(@RequestBody AutorDto autorDto) {
+    public ResponseEntity<AutorDto> criarAutor(@RequestBody AutorDto autorDto) {
         AutorDto autorCriado = autorService.criarAutor(autorDto);
         return new ResponseEntity<>(autorCriado, HttpStatus.CREATED);
     }
@@ -41,7 +41,7 @@ public class AutorController {
 
 
     @DeleteMapping("/autores/{id}")
-    public ResponseEntity<Void> excluirPessoa(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> excluirAutor(@PathVariable("id") Long id) {
         autorService.excluirAutor(id);
         return ResponseEntity.noContent().build();
     }

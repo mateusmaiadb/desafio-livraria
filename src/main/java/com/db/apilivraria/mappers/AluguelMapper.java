@@ -1,7 +1,7 @@
 package com.db.apilivraria.mappers;
 
-import com.db.apilivraria.dtos.AlugueDto;
-import com.db.apilivraria.models.AluguelModel;
+import com.db.apilivraria.dtos.AluguelDto;
+import com.db.apilivraria.models.Aluguel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -10,45 +10,32 @@ import java.util.stream.Collectors;
 @Component
 public interface AluguelMapper {
 
-    static AlugueDto toDto(AluguelModel aluguelModel){
-        AlugueDto aluguelDto = new AlugueDto();
-        BeanUtils.copyProperties(aluguelModel, aluguelDto, "locatario", "livros"); // Ignore the properties "locatario" and "livros"
+    static AluguelDto toDto(Aluguel aluguel){
+        AluguelDto aluguelDto = new AluguelDto();
+        BeanUtils.copyProperties(aluguel, aluguelDto, "locatario", "livros");
 
-        // Map the locatarioModel to locatarioDto
-        aluguelDto.setLocatario(LocatarioMapper.toDto(aluguelModel.getLocatario()));
+        aluguelDto.setLocatario(LocatarioMapper.toDto(aluguel.getLocatario()));
 
-        // Map the list of livros to the list of livroDto
-        aluguelDto.setLivros(aluguelModel.getLivros().stream()
+
+        aluguelDto.setLivros(aluguel.getLivros().stream()
                 .map(LivroMapper::toDto)
                 .collect(Collectors.toList()));
 
         return aluguelDto;
     }
 
-    static AluguelModel toEntity(AlugueDto aluguelDto) {
-        AluguelModel aluguelModel = new AluguelModel();
-        BeanUtils.copyProperties(aluguelDto, aluguelModel, "locatarioModel", "livros"); // Ignore the properties "locatarioModel" and "livros"
+    static Aluguel toEntity(AluguelDto aluguelDto) {
+        Aluguel aluguel = new Aluguel();
+        BeanUtils.copyProperties(aluguelDto, aluguel, "locatarioModel", "livros");
 
-        // Map the locatarioDto to locatarioModel
-        aluguelModel.setLocatario(LocatarioMapper.toEntity(aluguelDto.getLocatario()));
 
-        // Map the list of livroDto to the list of livros
-        aluguelModel.setLivros(aluguelDto.getLivros().stream()
+        aluguel.setLocatario(LocatarioMapper.toEntity(aluguelDto.getLocatario()));
+
+
+        aluguel.setLivros(aluguelDto.getLivros().stream()
                 .map(LivroMapper::toEntity)
                 .collect(Collectors.toList()));
 
-        return aluguelModel;
+        return aluguel;
     }
-
-//    static void updateEntityFromDto(AlugueDto aluguelDto, AluguelModel aluguelModel) {
-//        BeanUtils.copyProperties(aluguelDto, aluguelModel, "id", "locatarioModel", "livros"); // Ignore the properties "id", "locatarioModel", and "livros"
-//
-//        // Map the locatarioDto to locatarioModel
-//        aluguelModel.setLocatario(LocatarioMapper.toEntity(aluguelDto.getLocatarioModel()));
-//
-//        // Map the list of livroDto to the list of livros
-//        aluguelModel.setLivros(aluguelDto.getLivros().stream()
-//                .map(LivroMapper::toEntity)
-//                .collect(Collectors.toList()));
-//    }
 }

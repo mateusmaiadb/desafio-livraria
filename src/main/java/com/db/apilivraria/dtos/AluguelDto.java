@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class AlugueDto {
+public class AluguelDto {
 
     private Long id;
 
-    private LocatarioDto locatario; // Use LocatarioDto instead of LocatarioModel
+    private LocatarioDto locatario;
 
     private List<LivroDto> livros = new ArrayList<>();
 

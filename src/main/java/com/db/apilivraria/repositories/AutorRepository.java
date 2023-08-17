@@ -1,12 +1,11 @@
 package com.db.apilivraria.repositories;
 
-import com.db.apilivraria.dtos.AutorDto;
-import com.db.apilivraria.models.AutorModel;
+import com.db.apilivraria.models.Autor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AutorRepository extends JpaRepository<AutorModel, Long> {
+public interface AutorRepository extends JpaRepository<Autor, Long> {
 
-    AutorModel findByCpf(String cpf);
+    Autor findByCpf(String cpf);
 }
