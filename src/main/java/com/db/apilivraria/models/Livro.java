@@ -12,8 +12,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "livro")
-
-public class LivroModel {
+public class Livro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,15 +31,15 @@ public class LivroModel {
             joinColumns = @JoinColumn(name = "livro_id"),
             inverseJoinColumns = @JoinColumn(name = "autor_id")
     )
-    private List<AutorModel> autores = new ArrayList<>();
+    private List<Autor> autores = new ArrayList<>();
 
-    @JsonProperty("autores") // Anotação para incluir o campo na serialização JSON durante a consulta
-    public List<AutorModel> getAutores() {
+    @JsonProperty("autores")
+    public List<Autor> getAutores() {
         return autores;
     }
 
-    @JsonProperty("autores") // Anotação para incluir o campo na serialização JSON durante a consulta
-    public void setAutores(List<AutorModel> autores) {
+    @JsonProperty("autores")
+    public void setAutores(List<Autor> autores) {
         this.autores = autores;
     }
 
@@ -50,9 +49,6 @@ public class LivroModel {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", isbn='" + isbn + '\'' +
-                // ... outras informações relevantes, exceto a lista de autores
                 '}';
     }
-
-
 }
