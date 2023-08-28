@@ -121,4 +121,13 @@ class LocatarioServiceTest {
 
         verify(locatarioRepository, times(1)).delete(locatario);
     }
+
+    @Test
+    @DisplayName("Excluir locatário não encontrado")
+    void testExcluirLocatarioNaoEncontrado() {
+        Long locatarioId = 1L;
+        when(locatarioRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () -> locatarioService.excluirLocatario(locatarioId));
+    }
 }
