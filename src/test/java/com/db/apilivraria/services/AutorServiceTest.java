@@ -9,9 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +37,7 @@ class AutorServiceTest {
 
     @BeforeEach
     void setUp() {
+
         autor1 = new Autor();
         autor2 = new Autor();
         autorDto = new AutorDto();
@@ -61,6 +64,7 @@ class AutorServiceTest {
     @DisplayName("Cria um novo autor")
     void criarAutor() {
 
+
         autorDto.getNome();
         autorDto.getCpf();
         autorDto.getSexo();
@@ -86,7 +90,7 @@ class AutorServiceTest {
 
     @Test
     @DisplayName("Retorna busca por id")
-    void getPessoaById() {
+    void getAutorById() {
         when(autorRepository.findById(1L)).thenReturn(Optional.of(autor1));
         var autor = autorService.getAutorById(1L);
         assertEquals("Mateus", autor1.getNome());
@@ -122,6 +126,7 @@ class AutorServiceTest {
 
     }
 
+
     @Test
     @DisplayName("Exclui Autor por id")
     void excluirAutor() {
@@ -132,5 +137,46 @@ class AutorServiceTest {
         autorService.excluirAutor(autor1.getId());
 
         verify(autorRepository, times(1)).delete(autor1);
+
+        assertDoesNotThrow(() -> autorService.excluirAutor(autor1.getId()));
+    }
+
+    @Test
+    public void testGetAutorByIdNotFound() {
+        Long autorId = 1L;
+
+        when(autorRepository.findById(autorId)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () -> autorService.getAutorById(autorId));
+    }
+
+    @Test
+    public void testGetAllAutoresEmpty() {
+        when(autorRepository.findAll()).thenReturn(new ArrayList<>());
+
+        List<AutorDto> autorDtoList = autorService.getAllAutores();
+
+        assertTrue(autorDtoList.isEmpty());
+    }
+
+    @Test
+    public void testAtualizarAutorNotFound() {
+        Long autorId = 1L;
+        AutorDto autorDto = new AutorDto();
+        autorDto.setNome("Novo Nome");
+
+        when(autorRepository.findById(autorId)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () -> autorService.atualizarAutor(autorId, autorDto));
+    }
+
+    @Test
+    public void testExcluirAutorNotFound() {
+        Long autorId = 1L;
+
+        when(autorRepository.findById(autorId)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () -> autorService.excluirAutor(autorId));
+        verify(autorRepository, never()).delete(any(Autor.class));
     }
 }
